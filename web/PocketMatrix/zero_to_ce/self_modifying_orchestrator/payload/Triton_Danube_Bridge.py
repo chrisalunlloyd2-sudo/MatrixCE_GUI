@@ -24,7 +24,7 @@ def write_with_genetic_buffer(file_path, content):
 
 def triton_execute(performative, payload):
     print(f"[*] Triton Kernel executing: {performative}...")
-    
+
     success = False
     try:
         if performative == "RUN_BASH":
@@ -36,7 +36,7 @@ def triton_execute(performative, payload):
                 print("    -> Routing via Standard Bash Subprocess...")
                 status = os.system(payload)
                 success = (status == 0)
-                
+
         elif performative in ["CREATE_FILE", "MODIFY_FILE"]:
             # Payload expected format: filepath|content or JSON
             print(f"    -> Enforcing {OPTIMAL_BUFFER_SIZE} Byte I/O Buffer for File Operations...")
@@ -51,15 +51,15 @@ def triton_execute(performative, payload):
                 else:
                     raise ValueError("Payload format invalid. Expected JSON or 'path\\ncontent'")
             success = True
-            
+
         else:
-            # Placeholder for other symbolic execution logic 
+            # Placeholder for other symbolic execution logic
             print(f"    -> Payload: {payload[:50]}...")
             success = True # Mocking success for other types
     except Exception as e:
         print(f"[-] Triton Execution Error: {e}")
         success = False
-        
+
     record_action(performative, success)
     return success
 

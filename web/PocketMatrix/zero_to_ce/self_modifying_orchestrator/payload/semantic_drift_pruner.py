@@ -16,7 +16,7 @@ def prune_stale_weights():
     print("[*] Initiating Semantic Drift Pruning...")
     current_time = time.time()
     pruned_count = 0
-    
+
     if not os.path.exists(WEIGHTS_DIR):
         print("[!] Weights directory not found.")
         return
@@ -29,7 +29,7 @@ def prune_stale_weights():
                     entry = json.loads(line)
                     entry_time = entry.get("timestamp", 0)
                     days_old = (current_time - entry_time) / (24 * 3600)
-                    
+
                     if days_old <= DECAY_THRESHOLD_DAYS:
                         valid_entries.append(line)
                     else:
@@ -40,7 +40,7 @@ def prune_stale_weights():
         # Rewrite file with only valid, recent entries to prevent hash collision bloat
         with open(log_file, "w") as f:
             f.writelines(valid_entries)
-            
+
     print(f"[+] Pruning Complete. Removed {pruned_count} stale/corrupted trajectories.")
 
 if __name__ == "__main__":

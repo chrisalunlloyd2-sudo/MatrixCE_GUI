@@ -13,7 +13,7 @@ CACHE_FILE = os.path.expanduser("~/.matrix_ide/state/hash_mmap.bin")
 os.makedirs(os.path.dirname(CACHE_FILE), exist_ok=True)
 
 # Pre-allocate a 1MB fenced memory block
-CACHE_SIZE = 1024 * 1024 
+CACHE_SIZE = 1024 * 1024
 
 if not os.path.exists(CACHE_FILE):
     with open(CACHE_FILE, "wb") as f:
@@ -25,7 +25,7 @@ def get_mmap_cache():
         mm = mmap.mmap(f.fileno(), 0)
         raw_data = mm.read().decode('utf-8').strip('\0')
         mm.close()
-        
+
         if not raw_data:
             return {}
         try:
@@ -39,7 +39,7 @@ def update_mmap_cache(new_dict):
     if len(data_bytes) > CACHE_SIZE:
         print("[-] Error: Cache limit exceeded.")
         return False
-        
+
     with open(CACHE_FILE, "r+b") as f:
         mm = mmap.mmap(f.fileno(), 0)
         mm.seek(0)

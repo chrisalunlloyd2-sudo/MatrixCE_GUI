@@ -25,7 +25,7 @@ def calculate_weights():
                 weights[performative]["total"] += 1
                 if entry["success"]:
                     weights[performative]["success"] += 1
-    
+
     # Calculate scores
     final_scores = {}
     for perf, data in weights.items():
@@ -37,7 +37,7 @@ def evolve_orchestrator():
     print("[*] Modulator: Analyzing performance metrics...")
     for perf, score in scores.items():
         print(f"    -> {perf}: {score:.2%}")
-    
+
     # Logic to update orchestrator state file
     state_file = os.path.expanduser("~/.matrix_ide/state/orchestrator_config.json")
     with open(state_file, "w") as f:
