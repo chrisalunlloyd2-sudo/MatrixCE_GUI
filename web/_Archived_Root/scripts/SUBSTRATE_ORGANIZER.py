@@ -28,7 +28,7 @@ class SubstrateOrganizer:
         """Step 37: Keep only the last 10 snapshots."""
         print("[*] Pruning Backup Vault...")
         if not os.path.exists(self.backup_dir): return
-        
+
         freezes = sorted([f for f in os.listdir(self.backup_dir) if f.endswith(".tar.gz")], reverse=True)
         if len(freezes) > 10:
             for old_f in freezes[10:]:

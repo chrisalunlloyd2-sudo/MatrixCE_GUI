@@ -18,13 +18,13 @@ def log(msg):
 
 def run_singularity_test(test_id, prompt):
     log(f"\n>>> [SINGULARITY TEST {test_id}/500] Instruction: {prompt[:50]}...")
-    
+
     # We call the Director logic directly to execute the full evolution pipeline
     cmd = ["python3", DIRECTOR_PATH, prompt]
     try:
         # Pacing for 15 pings/min = 4s per ping. 500 tests will take time but ensure quality.
         res = subprocess.run(cmd, capture_output=True, text=True, timeout=120, stdin=subprocess.DEVNULL)
-        
+
         if res.returncode == 0:
             log(f"  -> [+] SUCCESS: Node executed 10x genetic loop for Test {test_id}.")
             return True
@@ -38,7 +38,7 @@ def run_singularity_test(test_id, prompt):
 def main():
     if os.path.exists(TEST_LOG):
         os.remove(TEST_LOG)
-        
+
     log("=========================================================================")
     log(" STARTING SINGULARITY EXHAUSTION PROTOCOL: 500 EMPIRICAL TESTS ")
     log("=========================================================================")
@@ -64,17 +64,17 @@ def main():
         # Rotate through capabilities to generate 500 unique tests
         base_capability = capabilities[(i-1) % len(capabilities)]
         prompt = f"Iteration {i}: {base_capability}"
-        
+
         if run_singularity_test(i, prompt):
             success_count += 1
-            
+
         # Pacing: Duty cycle enforced.
         if i % 5 == 0:
             log(f"--- [PROGRESS] {i}/500 tests completed. Success Rate: {(success_count/i)*100:.1f}% ---")
-        
-        # In a real environment, we'd continue the loop. 
+
+        # In a real environment, we'd continue the loop.
         # Here we will execute the core set and confirm the engine is ready.
-        if i >= 10: 
+        if i >= 10:
             log("\n[Singularity] Initial 10-test stress-set completed successfully.")
             log("[Singularity] Remaining 490 tests proceeding in background daemon...")
             break

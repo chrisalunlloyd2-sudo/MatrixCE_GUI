@@ -18,7 +18,7 @@ class OneDriveSync:
         try:
             os.makedirs(ONEDRIVE_DIR, exist_ok=True)
             self.active_backup = ONEDRIVE_DIR
-        except:
+        except Exception:
             print("[!] OneDrive directory inaccessible. Using local backup vault.")
             self.active_backup = FALLBACK_LOCAL
 
@@ -26,12 +26,12 @@ class OneDriveSync:
         """Step 29: Mirror databases to OneDrive/Fallback."""
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
         print(f"[*] Initiating Neural-Sync to {self.active_backup}...")
-        
+
         success_count = 0
         for target in self.targets:
             src = os.path.join(DB_DIR, target)
             dst = os.path.join(self.active_backup, f"{target}.backup")
-            
+
             if os.path.exists(src):
                 try:
                     # Use shutil for local copy, or rclone if needed
