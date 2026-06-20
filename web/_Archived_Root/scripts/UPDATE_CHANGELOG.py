@@ -28,7 +28,7 @@ class ChangelogUpdater:
                 text=True
             )
             return output.strip().split('\n')
-        except:
+        except Exception:
             return []
 
     def run_inference(self, prompt):
@@ -72,7 +72,7 @@ Output ONLY the markdown for the new version entry (## [v1.x.x] - Date ...).<|en
 
         print("[*] Synthesizing high-fidelity summary...")
         summary = self.generate_summary(commits)
-        
+
         if not os.path.exists(self.changelog_path):
             with open(self.changelog_path, 'w') as f:
                 f.write("# Changelog\n\n")
@@ -83,12 +83,12 @@ Output ONLY the markdown for the new version entry (## [v1.x.x] - Date ...).<|en
         # Insert after the header
         header_match = re.search(r'# Changelog.*?\n', content, re.DOTALL | re.IGNORECASE)
         header_end = header_match.end() if header_match else 0
-        
+
         new_content = content[:header_end] + "\n" + summary.strip() + "\n" + content[header_end:]
-        
+
         with open(self.changelog_path, 'w') as f:
             f.write(new_content)
-        
+
         print(f"[+] {self.changelog_path} updated with AI summary.")
 
 if __name__ == "__main__":

@@ -16,11 +16,11 @@ class ViperScraper:
         try:
             response = requests.get(url, timeout=15)
             soup = BeautifulSoup(response.text, 'html.parser')
-            
+
             # Simple heuristic for kernel/tech extraction
             text = soup.get_text()
             title = soup.title.string if soup.title else "Unknown Kernel"
-            
+
             entry = {
                 "source": url,
                 "title": title,
@@ -37,7 +37,7 @@ class ViperScraper:
     def export_to_wisdom(self):
         wisdom_path = os.path.expanduser("~/Wisdom/ingestion_vault/")
         os.makedirs(wisdom_path, exist_ok=True)
-        
+
         for i, entry in enumerate(self.wisdom_buffer):
             filename = f"ingest_{i}.json"
             with open(os.path.join(wisdom_path, filename), 'w') as f:

@@ -12,7 +12,7 @@ def extract_from_chats():
     print("--- 🔬 SYPHONING CHAT LOGS FOR TODOS ---")
     todo_pattern = re.compile(r'TODO: (.*)')
     all_todos = []
-    
+
     # 1. Gemini CLI Logs
     chat_files = glob.glob(os.path.join(CHAT_DIR, "*.jsonl"))
     if chat_files:
@@ -63,10 +63,10 @@ def update_syphon(new_todos):
         os.makedirs(os.path.dirname(SYPHON_FILE), exist_ok=True)
         with open(SYPHON_FILE, 'w') as f:
             f.write("# 📋 CHAT SYPHON: INTENT TRACKER\n\n## 📋 TODO LIST\n")
-            
+
     with open(SYPHON_FILE, 'r') as f:
         lines = f.readlines()
-        
+
     existing_content = "".join(lines)
     with open(SYPHON_FILE, 'a') as f:
         for t in new_todos:
