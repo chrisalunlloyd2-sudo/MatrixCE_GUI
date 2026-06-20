@@ -9,7 +9,7 @@ import shutil
 # 🌌 MATRIX COORDINATOR (v1.3: Off-Grid Edition)
 # [MANDATE: CROSS-DEVICE STATE MIRRORING & OFF-GRID QUEUEING]
 
-LAPTOP_IP = "192.168.1.100" 
+LAPTOP_IP = "192.168.1.100"
 LEDGER_DB = os.path.expanduser("~/.matrix_ide/database/ledger.db")
 GLOBAL_PEDAGOGY = os.path.expanduser("~/GLOBAL_PEDAGOGY.md")
 TRADE_VAULT = os.path.expanduser("~/.matrix_ide/trade_vault/")
@@ -27,11 +27,11 @@ class MatrixCoordinator:
     def check_connectivity(self):
         """Step 22: Connection sensing."""
         try:
-            subprocess.run(["ping", "-c", "1", "-W", "1", LAPTOP_IP], 
+            subprocess.run(["ping", "-c", "1", "-W", "1", LAPTOP_IP],
                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
             self.is_online = True
             return True
-        except:
+        except Exception:
             self.is_online = False
             return False
 
@@ -80,7 +80,7 @@ class MatrixCoordinator:
                 subprocess.run(["rsync", "-avz", f_path, f"user@{LAPTOP_IP}:~/.matrix_ide/trade_vault/"], check=True)
                 os.remove(f_path)
                 print(f"[+] Synced and cleared: {f}")
-            except:
+            except Exception:
                 print(f"[!] Sync failed for {f}. Node likely went offline.")
                 break
 
@@ -117,20 +117,20 @@ class MatrixCoordinator:
         try:
             with open(package_path, 'r') as f:
                 data = json.load(f)
-            
+
             # Step 27: Global Auditor logic
             target_temp = data.get('thermal_state', 0)
             if target_temp > 42.0:
                 print(f"[🌡️ Global Auditor] WARNING: Node {data['node_id']} is OVERHEATING ({target_temp}C). Initiating Network Backoff.")
                 self.is_online = False # Temporary backoff
-            
+
             conn = sqlite3.connect(LEDGER_DB)
             cur = conn.cursor()
             for task, cmd in data['patterns']:
-                cur.execute("INSERT OR IGNORE INTO successful_scripts (task, command) VALUES (?, ?)", 
+                cur.execute("INSERT OR IGNORE INTO successful_scripts (task, command) VALUES (?, ?)",
                             (f"swarm_{data['node_id']}_{task}", cmd))
             for prompt, entropy in data['entropy_events']:
-                cur.execute("INSERT OR IGNORE INTO entropy_events (prompt, entropy) VALUES (?, ?)", 
+                cur.execute("INSERT OR IGNORE INTO entropy_events (prompt, entropy) VALUES (?, ?)",
                             (prompt, entropy))
             conn.commit()
             conn.close()

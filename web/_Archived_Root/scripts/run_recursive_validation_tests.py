@@ -11,14 +11,14 @@ def run_test(tid, prompt):
     try:
         # Pacing for OpenRouter
         res = subprocess.run(cmd, capture_output=True, text=True, timeout=300, stdin=subprocess.DEVNULL)
-        
+
         if "[STATUS: SATISFIED]" in res.stdout or "[NEXT_STEP:" in res.stdout:
             msg = "SUCCESS: Recursive Logic Active"
             success = True
         else:
             msg = "FAIL: Missing Recursive Markers"
             success = False
-            
+
         with open(TEST_LOG, "a") as f:
             f.write(f"[{time.ctime()}] TEST {tid}: {msg}\n")
         return success
@@ -31,7 +31,7 @@ def main():
     print("=========================================================================")
     print(" INITIATING RECURSIVE VALIDATION BATCH (Tests 161-260) ")
     print("=========================================================================")
-    
+
     scenarios = [
         "Recursive Plan: Build a multi-stage Python data pipeline.",
         "Recursive Fix: Refactor an existing module with 10 passes.",
@@ -45,10 +45,10 @@ def main():
         scenario = scenarios[i % len(scenarios)]
         if run_test(i, f"Iteration {i}: {scenario}"):
             success_count += 1
-        
+
         if i % 10 == 0:
             print(f"--- [PROGRESS] {i}/260 tests completed. Success Rate: {(success_count/(i-160))*100:.1f}% ---")
-        
+
         # Limit the number of tests in one turn to avoid timeout, but execute a significant chunk
         if i >= 180:
             print("\n[Singularity] Initial recursive stress-set (161-180) verified.")

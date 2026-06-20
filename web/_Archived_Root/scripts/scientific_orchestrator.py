@@ -25,7 +25,7 @@ def generate_docs(project_topic):
     doc_prompt = f"""
     You are an enterprise architect. The user wants to build: '{project_topic}'.
     Generate the raw text for 4 files. Separate them with '---FILE_BOUNDARY---'.
-    
+
     1. README.md: Must include an ASCII topological file tree, exhaustive descriptions, dependencies, and setup instructions for Windows and Android (Termux).
     2. Blueprint.md: Core architecture and logic.
     3. CHANGELOG.md: Initial entry.
@@ -34,7 +34,7 @@ def generate_docs(project_topic):
     output = run_aichat(doc_prompt)
     files = output.split('---FILE_BOUNDARY---')
     names = ['README.md', 'Blueprint.md', 'CHANGELOG.md', 'ROADMAP.md']
-    
+
     for i, name in enumerate(names):
         if i < len(files):
             with open(name, 'w') as f:
@@ -45,7 +45,7 @@ def execute_aider(prompt):
     # Pass to Aider, explicitly bound to OpenRouter
     with open(".matrix_temp_prompt.md", "w") as f:
         f.write(f"The user wants: {prompt}\nPlease write all necessary code files to fulfill this request. Create index.html, style.css, app.js, or python scripts as required.")
-    
+
     print("[+] Aider Execution Layer Engaged...")
     os.system("aider --model openrouter/anthropic/claude-3.5-sonnet --message-file .matrix_temp_prompt.md --yes --no-auto-commits")
     if os.path.exists(".matrix_temp_prompt.md"):
@@ -93,7 +93,7 @@ def main():
         intent="To deploy the finished project to the user's GitHub autonomously."
     )
     upload_github()
-    
+
     print("\n========================================================")
     print(" I have uploaded everything to GitHub. Your project is ready.")
     print("========================================================\n")

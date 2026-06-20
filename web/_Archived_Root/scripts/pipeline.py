@@ -35,13 +35,13 @@ def store_data(data):
 with beam.Pipeline(options=options) as p:
     # Ingest data
     data = p | beam.Create(ingest_data())
-    
+
     # Process data
     processed_data = data | beam.Map(process_data)
-    
+
     # Transform data
     transformed_data = processed_data | beam.Map(transform_data)
-    
+
     # Store data
     transformed_data | beam.Map(store_data)
 
@@ -66,12 +66,12 @@ def preprocess_data(data):
     try:
         # Handle missing values
         data.fillna(data.mean(), inplace=True)
-        
+
         # Scale features
         from sklearn.preprocessing import StandardScaler
         scaler = StandardScaler()
         data[['feature1', 'feature2']] = scaler.fit_transform(data[['feature1', 'feature2']])
-        
+
         return data
     except Exception as e:
         print(f"Error preprocessing data: {e}")
@@ -82,11 +82,11 @@ def train_model(data):
     try:
         # Split data into training and testing sets
         X_train, X_test, y_train, y_test = train_test_split(data.drop('target', axis=1), data['target'], test_size=0.2, random_state=42)
-        
+
         # Train random forest classifier
         model = RandomForestClassifier(n_estimators=100, random_state=42)
         model.fit(X_train, y_train)
-        
+
         return model
     except Exception as e:
         print(f"Error training model: {e}")
@@ -97,11 +97,11 @@ def evaluate_model(model, data):
     try:
         # Make predictions on testing data
         y_pred = model.predict(data.drop('target', axis=1))
-        
+
         # Evaluate model performance
         accuracy = accuracy_score(data['target'], y_pred)
         report = classification_report(data['target'], y_pred)
-        
+
         return accuracy, report
     except Exception as e:
         print(f"Error evaluating model: {e}")
@@ -113,7 +113,7 @@ def deploy_model(model):
         # Save model to file
         import joblib
         joblib.dump(model, 'model.joblib')
-        
+
         return True
     except Exception as e:
         print(f"Error deploying model: {e}")

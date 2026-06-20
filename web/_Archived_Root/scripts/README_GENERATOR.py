@@ -41,10 +41,10 @@ class ReadmeGenerator:
 
     def generate(self):
         print(f"[*] Manifesting v10.1 README for {self.project_name}...")
-        
+
         with open(TEMPLATE_PATH, 'r') as f:
             template = f.read()
-            
+
         replacements = {
             "{{PROJECT_NAME}}": self.project_name,
             "{{TIMESTAMP}}": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -55,13 +55,13 @@ class ReadmeGenerator:
             "{{PROGRESS}}": self.get_roadmap_stats(),
             "{{PERFORMANCE}}": self.get_thermal_health()
         }
-        
+
         for key, val in replacements.items():
             template = template.replace(key, val)
-            
+
         with open("README.md", "w") as f:
             f.write(template)
-            
+
         print("[✅] README.md Manifested with v10.1 High-Fidelity standards.")
 
 if __name__ == "__main__":

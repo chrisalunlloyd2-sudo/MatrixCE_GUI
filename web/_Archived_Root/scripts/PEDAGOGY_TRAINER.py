@@ -6,7 +6,7 @@ def train_pattern(task, correct_command):
     print(f"--- 🎓 TRAINING PEDAGOGY PATTERN ---")
     print(f"[Task]: {task}")
     print(f"[Goal]: {correct_command}")
-    
+
     # Store in success vault directly
     import sqlite3
     db_path = os.path.expanduser("~/.matrix_ide/database/ledger.db")

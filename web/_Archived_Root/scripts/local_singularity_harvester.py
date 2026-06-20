@@ -30,45 +30,45 @@ def harvest_and_train():
     print(" COMMENCING LOCAL SINGULARITY SELF-TRAINING ")
     print(" Target: Entire Workspace (~/*) ")
     print("=========================================================================")
-    
+
     init_training_db()
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    
+
     home_dir = "/data/data/com.termux/files/home"
     exclude_dirs = {'.git', '.npm', '.cache', 'node_modules', '__pycache__', '.gemini'}
-    
+
     file_count = 0
     for root, dirs, files in os.walk(home_dir):
         dirs[:] = [d for d in dirs if d not in exclude_dirs]
-        
+
         for file in files:
             if file.endswith(('.py', '.js', '.sh', '.rs', '.java', '.md', '.sql', '.yaml')):
                 file_path = os.path.join(root, file)
                 try:
                     with open(file_path, 'r', errors='ignore') as f:
                         content = f.read()
-                    
+
                     if not content.strip():
                         continue
-                        
+
                     file_hash = hashlib.sha256(content.encode()).hexdigest()
-                    
+
                     # Tagging logic for local training
                     tag = "GENESIS"
                     if "VIPER" in file_path: tag = "VIPER_LOGIC"
                     elif "openrouter_manager" in file_path: tag = "OR_CORE"
-                    
+
                     cursor.execute('''
-                        INSERT OR REPLACE INTO local_training_data 
-                        (file_hash, file_path, content_blob, semantic_tag) 
+                        INSERT OR REPLACE INTO local_training_data
+                        (file_hash, file_path, content_blob, semantic_tag)
                         VALUES (?, ?, ?, ?)
                     ''', (file_hash, file_path, content, tag))
-                    
+
                     file_count += 1
                     if file_count % 10 == 0:
                         print(f"  -> Ingested {file_count} files...")
-                        
+
                 except Exception as e:
                     continue
 
