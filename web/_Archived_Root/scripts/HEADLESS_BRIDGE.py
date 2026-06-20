@@ -12,18 +12,18 @@ class HeadlessBridge:
     def send_command(self, command):
         """Pipes a command to the Master Engine and returns the high-signal output."""
         print(f"[*] Bridge routing command: {command}")
-        
+
         # We simulate the input() by piping echo
         cmd = f"echo \"{command}\nexit\" | python3 {self.master_script}"
-        
+
         try:
             process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             stdout, stderr = process.communicate(timeout=300)
-            
+
             # Filter for [AI] or [Component] tags
             lines = stdout.splitlines()
             high_signal = [line for line in lines if any(tag in line for tag in ["[AI", "[Component", "[State", "[Algebraic"])]
-            
+
             return "\n".join(high_signal)
         except Exception as e:
             return f"[!] Bridge Error: {e}"

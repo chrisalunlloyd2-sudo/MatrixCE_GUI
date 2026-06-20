@@ -12,14 +12,14 @@ class ContentArchitect:
     def generate_blueprint(self, module_path):
         """Step 39: Generate a Blueprint.md snippet for a specific module."""
         print(f"[*] Architecting content for {module_path}...")
-        
+
         try:
             with open(module_path, 'r') as f:
                 code = f.read()
-            
-            prompt = f"""<|prompt|>Task: You are a Senior Solution Architect. 
+
+            prompt = f"""<|prompt|>Task: You are a Senior Solution Architect.
 Analyze the following code and generate a v10.1 High-Fidelity Blueprint summary.
-Include: 
+Include:
 1. Logic Flow (Sequential steps)
 2. Data Schema (Internal structures)
 3. Mandate Alignment (How it follows Gen 8 rules)
@@ -28,10 +28,10 @@ Code:
 {code}
 
 Output ONLY the Markdown content.<|endoftext|>\n<|answer|>"""
-            
+
             process = subprocess.Popen(["aichat"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
             stdout, _ = process.communicate(input=prompt)
-            
+
             return stdout
         except Exception as e:
             return f"[!] Architect Error: {e}"

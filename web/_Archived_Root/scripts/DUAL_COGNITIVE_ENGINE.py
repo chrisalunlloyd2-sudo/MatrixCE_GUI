@@ -40,11 +40,11 @@ class DualCognitiveEngine:
 
     def process(self, prompt):
         is_act, is_rep = self.extractor_layer(prompt)
-        
+
         # Parallel Execution Simulation
         sym_out = self.agent_symbolic(prompt) if is_act else "No action correlation needed."
         neu_out = self.agent_neural(prompt) if is_rep else "No neural deep-dive required."
-        
+
         final_response = self.patch_response(sym_out, neu_out)
         return final_response
 

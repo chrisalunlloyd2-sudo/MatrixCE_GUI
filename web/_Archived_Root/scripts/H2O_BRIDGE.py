@@ -17,11 +17,11 @@ class H2OBridge:
     def execute_remote(self, command, hypothesis="Distributed Agentic Task"):
         """Step 23: Delegate command to the Laptop Node."""
         print(f"--- 🌉 H2O-BRIDGE DELEGATION: {command[:50]}... ---")
-        
+
         # Wrap in remote Scientific Executor if it exists on the other side
         # Otherwise, run directly via SSH
         remote_cmd = f"python3 ~/SCIENTIFIC_EXECUTOR.py \"{command}\" \"ls\" \"{hypothesis}\""
-        
+
         full_ssh_cmd = [
             "ssh", "-o", "ConnectTimeout=5",
             f"{LAPTOP_USER}@{LAPTOP_IP}",
@@ -32,7 +32,7 @@ class H2OBridge:
         try:
             result = subprocess.run(full_ssh_cmd, capture_output=True, text=True)
             duration = time.time() - start_time
-            
+
             if result.returncode == 0:
                 print(f"[+] Remote Execution Success ({duration:.2f}s).")
                 self.log_bridge_event(command, "SUCCESS", duration)

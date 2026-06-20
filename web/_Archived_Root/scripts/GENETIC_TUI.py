@@ -49,7 +49,7 @@ class GeneticTUI:
         table.add_column("Weight", style="magenta")
         table.add_column("Success", style="green")
         table.add_column("Failure", style="red")
-        
+
         for r_id, weight, s, f in stats:
             table.add_row(str(r_id), f"{weight:.4f}", str(s), str(f))
         return table
