@@ -27,7 +27,7 @@ def check_lock():
             os.kill(pid, 0)
             print(f"[!] Daemon active at PID {pid}. Exiting.")
             sys.exit(0)
-        except:
+        except Exception:
             os.remove(LOCK_FILE)
     with open(LOCK_FILE, 'w') as f:
         f.write(str(os.getpid()))
@@ -52,26 +52,26 @@ def get_high_entropy_task():
 def execute_pedagogy_cycle(generation):
     timestamp_now = datetime.datetime.now()
     print(f"[{timestamp_now}] Waking for Multi-Kernel Gen {generation}...")
-    
+
     # Step 11: Check for Entropy-Locked Task
     entropy_task = get_high_entropy_task()
     if entropy_task:
         print(f"[🧬 Entropy Lock] Prioritizing confused prompt: {entropy_task}")
-    
+
     # 1. INITIALIZE TRITON CHOOSER LAB
     lab = TritonChooserLab()
-    
+
     # 2. EXECUTE METHODICAL PERMUTATION (OR ENTROPY TASK)
     print(f"[*] Running Permutation/Optimization Event...")
     # Passing the entropy task as the 'override' intent if it exists
     report = lab.run_permutation_event(generation, override_intent=entropy_task)
-    
+
     throttle_cpu()
-    
+
     # 3. Generate Mutation Record
     file_name = f"gen_{generation}_{timestamp_now.strftime('%Y%m%d_%H%M%S')}.md"
     file_path = os.path.join(SANDBOX_DIR, file_name)
-    
+
     content = f"""# 🧬 GENETIC MUTATION RECORD: Generation {generation}
 **[MULTI-KERNEL ARCHITECTURE UPGRADE]**
 **TIMESTAMP:** {timestamp_now.strftime('%Y-%m-%d %H:%M:%S')}
@@ -87,19 +87,19 @@ def execute_pedagogy_cycle(generation):
 - **Org Pattern:** {report['config']['org_pattern']}
 
 ## 📈 PERFORMANCE CURVE
-The system is targeting the **{report['metrics']['bell_curve_position']}**. 
+The system is targeting the **{report['metrics']['bell_curve_position']}**.
 Algebraic Speed Factor: {report['metrics']['speed_factor']}
 
 *Note: Data syphaned to `lab_events/` for 100+ permutation analysis.*
 """
     with open(file_path, 'w') as f:
         f.write(content)
-    
+
     # 4. Safe GitHub Sync
     try:
         lock_path = os.path.join(SANDBOX_DIR, ".git/index.lock")
         if os.path.exists(lock_path): os.remove(lock_path)
-        
+
         subprocess.run(["git", "add", "."], cwd=SANDBOX_DIR)
         subprocess.run(["git", "commit", "-m", f"[PERMUTATION] Gen {generation} - Kernel: {report['config']['kernel_selected']}"], cwd=SANDBOX_DIR)
         subprocess.run(["git", "push", "origin", "main"], cwd=SANDBOX_DIR)
@@ -109,10 +109,10 @@ Algebraic Speed Factor: {report['metrics']['speed_factor']}
 if __name__ == "__main__":
     check_lock()
     print("[*] Starting Training Lab Daemon v5.0 (Multi-Kernel Evolution)")
-    
+
     existing_files = [f for f in os.listdir(SANDBOX_DIR) if f.startswith("gen_")]
     current_gen = len(existing_files) + 1
-    
+
     while True:
         try:
             execute_pedagogy_cycle(current_gen)
