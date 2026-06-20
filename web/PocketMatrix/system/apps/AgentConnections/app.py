@@ -9,7 +9,7 @@ def authenticate(phrase):
 def establish_pipe(ip, port, proto, auth_phrase):
     if not authenticate(auth_phrase):
         return "Auth Failed"
-    
+
     if proto == "udp":
         # Logic for UDP pipe
         pass

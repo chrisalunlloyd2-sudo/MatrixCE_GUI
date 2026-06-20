@@ -37,7 +37,7 @@ def download_model():
         start_time = time.time()
         response = requests.get(MODEL_URL, stream=True, timeout=30)
         response.raise_for_status()
-        
+
         total_size = int(response.headers.get('content-length', 0))
         downloaded = 0
 
