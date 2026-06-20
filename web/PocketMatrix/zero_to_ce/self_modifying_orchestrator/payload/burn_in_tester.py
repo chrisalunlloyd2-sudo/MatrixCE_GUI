@@ -37,21 +37,21 @@ def run_burn_in():
 
     for round_num in range(1, 31):
         case_name, prompt = random.choice(test_cases)
-        
+
         try:
             start_time = time.time()
             target, meta = route_request(prompt)
             latency = (time.time() - start_time) * 1000
-            
+
             # Print minimal log per round
             print(f"R{round_num:02d} | Case: {case_name[:15]:15} | Latency: {latency:.2f}ms | Target: {target}")
-            
+
             # Simulated Action Execution based on Target
             if target == "TRITON_KERNEL":
                 time.sleep(0.01) # fast
             else:
                 time.sleep(0.05) # slow simulation
-                
+
         except Exception as e:
             print(f"[!] ERROR in R{round_num:02d}: {str(e)}")
             errors += 1

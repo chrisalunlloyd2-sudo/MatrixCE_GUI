@@ -27,7 +27,7 @@ def calculate_mock_fitness(branch_name):
 def merge_fittest():
     """Identifies the fittest branch and mocks the merge process."""
     print("[MATRIX] SCANNING SPECULATIVE BRANCHES FOR FITNESS...")
-    
+
     # Get branches starting with 'speculative/'
     try:
         result = subprocess.run(["git", "branch", "--list", "speculative/*"], capture_output=True, text=True)
@@ -41,7 +41,7 @@ def merge_fittest():
         return
 
     scores = get_fitness_scores()
-    
+
     # Combine real scores with mock scores for branches missing data
     fitness_map = {}
     for branch in branches:
@@ -52,7 +52,7 @@ def merge_fittest():
 
     print(f"[MATRIX] FITTEST BRANCH IDENTIFIED: {fittest_branch}")
     print(f"[MATRIX] FITNESS SCORE: {max_score}/100")
-    
+
     # Mocking the merge as per Phase 8 requirements
     print(f"[MATRIX] INITIATING MOCK MERGE: git merge {fittest_branch}")
     print("[SUCCESS] EVOLUTIONARY MERGE SIMULATION COMPLETE.")

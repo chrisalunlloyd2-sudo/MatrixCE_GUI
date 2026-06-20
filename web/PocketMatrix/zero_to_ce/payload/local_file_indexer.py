@@ -32,14 +32,14 @@ def index_file(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
             content = f.read()
-            
+
         rel_path = os.path.relpath(file_path, os.path.expanduser("~"))
         chunks = [content[i:i + CHUNK_SIZE] for i in range(0, len(content), CHUNK_SIZE)]
-        
+
         conn = sqlite3.connect(DB_PATH)
         cur = conn.cursor()
         cur.execute("PRAGMA journal_mode=WAL;")
-        
+
         for i, chunk in enumerate(chunks):
             payload = f"[SOURCE: {rel_path} | CHUNK: {i+1}/{len(chunks)}]\n{chunk}"
             embedding = get_embedding(payload)
@@ -47,7 +47,7 @@ def index_file(file_path):
                 "INSERT INTO operational_memory (embedding_blob, payload, context_type) VALUES (?, ?, ?)",
                 (embedding, payload, "local_file_index")
             )
-        
+
         conn.commit()
         conn.close()
         return len(chunks)
@@ -58,7 +58,7 @@ def index_file(file_path):
 def run_indexing():
     root_dir = os.path.expanduser("~")
     print(f"[*] Starting Local File Indexing in {root_dir}...")
-    
+
     total_files = 0
     total_chunks = 0
     start_time = time.time()
@@ -66,7 +66,7 @@ def run_indexing():
     for root, dirs, files in os.walk(root_dir):
         # Filter directories in-place
         dirs[:] = [d for d in dirs if d not in EXCLUDE_DIRS and not d.startswith('.')]
-        
+
         for file in files:
             ext = os.path.splitext(file)[1]
             if ext in INCLUDE_EXTS:

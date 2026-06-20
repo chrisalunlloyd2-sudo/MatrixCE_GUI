@@ -24,7 +24,7 @@ def thermal_governor():
             if temp > 42:
                 print(f"[!] THERMAL ALERT: {temp}C. Throttling Agentic Loops.")
                 return False
-    except:
+    except Exception:
         pass
     return True
 

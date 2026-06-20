@@ -17,7 +17,7 @@ def refactor():
     # Target: # DANUBE LOGIC ORCHESTRATOR (v4.0)
     # New: # DANUBE LOGIC ORCHESTRATOR (v4.1-OPTIMIZED)
     new_content = re.sub(r"DANUBE LOGIC ORCHESTRATOR \(v\d+\.\d+\)", "DANUBE LOGIC ORCHESTRATOR (v4.1-OPTIMIZED)", content)
-    
+
     # Add performance comment if not present
     perf_comment = "# [PERFORMANCE: HIGH-FIDELITY GEN 8]"
     if perf_comment not in new_content:

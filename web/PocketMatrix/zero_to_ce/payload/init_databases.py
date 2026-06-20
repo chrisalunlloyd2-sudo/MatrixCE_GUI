@@ -12,14 +12,14 @@ def init_db(name, schema):
     os.makedirs(DB_PATH, exist_ok=True)
     conn = sqlite3.connect(os.path.join(DB_PATH, name))
     c = conn.cursor()
-    
+
     # Force WAL Mode for Gen 8 Fenced Substrates
     c.execute("PRAGMA journal_mode=WAL;")
     c.execute("PRAGMA synchronous=NORMAL;")
-    
+
     for table_schema in schema:
         c.execute(table_schema)
-    
+
     conn.commit()
     conn.close()
     print(f"[+] Database Initialized: {name} (WAL Mode Active)")
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     init_db("todo.db", [
         "CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, task TEXT, status TEXT, delivery_method TEXT);"
     ])
-    
+
     # 2. Ledger Database (Historical Logic)
     init_db("ledger.db", [
         "CREATE TABLE IF NOT EXISTS successful_scripts (id INTEGER PRIMARY KEY AUTOINCREMENT, script_name TEXT, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP, logic_blob TEXT, fitness_score REAL);",

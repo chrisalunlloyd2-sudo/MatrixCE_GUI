@@ -16,14 +16,14 @@ def generate_keys():
     """Generates RSA keys if they do not exist."""
     if not os.path.exists(KEY_DIR):
         os.makedirs(KEY_DIR)
-    
+
     if not os.path.exists(PRIVATE_KEY_PATH):
         print("[*] CE-SECURE: Generating 2048-bit RSA Key-pair...")
         private_key = rsa.generate_private_key(
             public_exponent=65537,
             key_size=2048
         )
-        
+
         # Save private key
         with open(PRIVATE_KEY_PATH, "wb") as f:
             f.write(private_key.private_bytes(
@@ -31,7 +31,7 @@ def generate_keys():
                 format=serialization.PrivateFormat.PKCS8,
                 encryption_algorithm=serialization.NoEncryption()
             ))
-            
+
         # Save public key
         public_key = private_key.public_key()
         with open(PUBLIC_KEY_PATH, "wb") as f:
@@ -53,7 +53,7 @@ def sign_heartbeat():
             key_file.read(),
             password=None
         )
-    
+
     message = b"HEARTBEAT"
     signature = private_key.sign(
         message,
