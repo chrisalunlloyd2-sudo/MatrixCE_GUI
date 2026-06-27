@@ -2,7 +2,7 @@
 
 > TRITON FLASH-ATTENTION 2 & PAGED KV CACHE LAYER (Mathematical stub for Local H2O-Danube 500M/1.8B execution)
 
-*Auto-generated 2026-06-26 14:06 from source — branch `master`, 229 Python modules, 334 other files.*
+*Auto-generated 2026-06-27 09:10 from source — branch `master`, 229 Python modules, 334 other files.*
 
 ## Architecture
 
@@ -615,6 +615,14 @@ its prompts based on historically successful agent runs.
 - **class `ReadmeGenerator`**
   - methods: `get_ascii_tree`, `get_roadmap_stats`, `get_thermal_health`, `generate`
 
+### `web/_Archived_Root/scripts/SCIENTIFIC_EXECUTOR.py`
+
+- `log_scientific_step(step_num, step_desc, observation, hypothesis, experiment, result)`
+- `get_next_step()`
+- `mark_step_complete(step_num)`
+- `run_with_limits(command)`
+- `execute_step(step_num, step_desc)`
+
 ### `web/_Archived_Root/scripts/SEED_VAULT.py`
 
 - `seed_vault()`
@@ -792,14 +800,6 @@ its prompts based on historically successful agent runs.
 
 - `run_test(tid, prompt)`
 - `main()`
-
-### `web/_Archived_Root/scripts/scientific_executor.py`
-
-- `log_scientific_step(step_num, step_desc, observation, hypothesis, experiment, result)`
-- `get_next_step()`
-- `mark_step_complete(step_num)`
-- `run_with_limits(command)`
-- `execute_step(step_num, step_desc)`
 
 ### `web/_Archived_Root/scripts/scientific_orchestrator.py`
 
@@ -1057,6 +1057,11 @@ its prompts based on historically successful agent runs.
 | `FINAL_TEST_PILOT` | `test_no_refusal` | `test_no_refusal()` |
 | `PEDAGOGY_HARVESTER` | `harvest` | `harvest()` |
 | `PEDAGOGY_TRAINER` | `train_pattern` | `train_pattern(task, correct_command)` |
+| `SCIENTIFIC_EXECUTOR` | `execute_step` | `execute_step(step_num, step_desc)` |
+| `SCIENTIFIC_EXECUTOR` | `get_next_step` | `get_next_step()` |
+| `SCIENTIFIC_EXECUTOR` | `log_scientific_step` | `log_scientific_step(step_num, step_desc, observation, hypothesis, experiment, result)` |
+| `SCIENTIFIC_EXECUTOR` | `mark_step_complete` | `mark_step_complete(step_num)` |
+| `SCIENTIFIC_EXECUTOR` | `run_with_limits` | `run_with_limits(command)` |
 | `SEED_VAULT` | `seed_vault` | `seed_vault()` |
 | `SubstrateOrganizer` | `organize_and_tidy` | `organize_and_tidy()` |
 | `TODO_SCANNER` | `cleanup_completed` | `cleanup_completed()` |
@@ -1108,20 +1113,16 @@ its prompts based on historically successful agent runs.
 | `download_weights` | `download_model` | `download_model()` |
 | `enex_importer` | `import_enex` | `import_enex(enex_file_path)` |
 | `engine_loop` | `extract` | `extract(text)` |
-| `evernote_gw` | `cmd_auth` | `cmd_auth(_args)` |
-| `evernote_gw` | `cmd_create_note` | `cmd_create_note(args)` |
-| `evernote_gw` | `cmd_import_jsonl` | `cmd_import_jsonl(args)` |
-| `evernote_gw` | `enml_wrap` | `enml_wrap(html_body)` |
-| `evernote_gw` | `get_client` | `get_client(token)` |
 
 ## Status
 
 - Branch: `master`
-- Last commit: 2026-06-20 17:35:16 -0600
+- Last commit: 2026-06-26 14:24:19 -0600
 - File types: .md ×153, .json ×32, .sh ×29, .txt ×28, .html ×20, .log ×10, .js ×9, .rs ×7
 
 ### Recent commits
 ```
+1eb1034 [Moe autonomous] MatrixCE_GUI 2026-06-26 14:24
 a8f82d9 [Moe autonomous] MatrixCE_GUI 2026-06-20 17:35
 e8e49cf [Moe autonomous] MatrixCE_GUI 2026-06-20 09:18
 5fdd56c [Moe autonomous] MatrixCE_GUI 2026-06-20 08:41
@@ -1129,7 +1130,6 @@ e8e49cf [Moe autonomous] MatrixCE_GUI 2026-06-20 09:18
 088e3b3 [Moe autonomous] MatrixCE_GUI 2026-06-20 07:20
 05f1d22 [Moe autonomous] MatrixCE_GUI 2026-06-20 06:48
 32a2a78 [Moe autonomous] MatrixCE_GUI 2026-06-20 06:17
-4b63d72 [Moe autonomous] MatrixCE_GUI 2026-06-20 05:50
 ```
 
 ---
