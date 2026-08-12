@@ -74,6 +74,7 @@ def run_sync_layer(message):
     print("[+] GitHub Syphon Complete. State synchronized.")
 
 def main():
+    """Main (function)."""
     print("=====================================================================")
     print(" DANUBE ORCHESTRATOR - PACED EXECUTION ENGINE ACTIVE ")
     print(" Architecture: [Terminal] -> [Danube Filter] -> [OpenRouter API] ")
