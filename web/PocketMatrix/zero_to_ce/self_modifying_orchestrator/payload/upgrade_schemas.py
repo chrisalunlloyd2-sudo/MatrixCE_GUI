@@ -8,6 +8,7 @@ import os
 DB_PATH = os.path.expanduser("~/.matrix_ide/state/shannon_memory.db")
 
 def upgrade_schema():
+    """Upgrade schema (function)."""
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute("PRAGMA journal_mode=WAL;")
