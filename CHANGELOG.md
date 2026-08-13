@@ -3,6 +3,7 @@
 All notable changes to this project.
 
 ## 2026-08
+- **[Changed]** [Moe autonomous] MatrixCE_GUI 2026-08-13 04:58 ($hash)
 - **[Changed]** [Moe autonomous] MatrixCE_GUI 2026-08-13 03:59 ($hash)
 - **[Changed]** [Moe autonomous] MatrixCE_GUI 2026-08-13 03:25 ($hash)
 - **[Changed]** [Moe autonomous] MatrixCE_GUI 2026-08-13 02:33 ($hash)
@@ -29,7 +30,6 @@ All notable changes to this project.
 - **[Docs]** docs: document 1 public API in web\PocketMatrix\zero_to_ce\self_modifying_orchestrator\payload\upgrade_schemas.py (autonomous, logic-verified) ($hash)
 - **[Changed]** [Moe autonomous] MatrixCE_GUI 2026-08-12 04:14 ($hash)
 - **[Docs]** docs: document 1 public API in web\H2OIDE\matrix_orchestrator.py (autonomous, logic-verified) ($hash)
-- **[Docs]** docs: auto-update [skip-docs] ($hash)
 - **[Docs]** docs: auto-update [skip-docs] ($hash)
 - **[Docs]** docs: auto-update [skip-docs] ($hash)
 - **[Docs]** docs: auto-update [skip-docs] ($hash)
