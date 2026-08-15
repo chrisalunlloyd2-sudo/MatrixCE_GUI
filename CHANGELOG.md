@@ -3,6 +3,7 @@
 All notable changes to this project.
 
 ## 2026-08
+- **[Changed]** [Moe autonomous] MatrixCE_GUI 2026-08-14 18:52 ($hash)
 - **[Changed]** [Moe autonomous] MatrixCE_GUI 2026-08-14 18:10 ($hash)
 - **[Changed]** [Moe autonomous] MatrixCE_GUI 2026-08-14 16:56 ($hash)
 - **[Changed]** [Moe autonomous] MatrixCE_GUI 2026-08-14 15:20 ($hash)
@@ -52,5 +53,4 @@ All notable changes to this project.
 - **[Changed]** [Moe autonomous] MatrixCE_GUI 2026-08-12 19:35 ($hash)
 - **[Changed]** [Moe autonomous] MatrixCE_GUI 2026-08-12 18:36 ($hash)
 - **[Changed]** [Moe autonomous] MatrixCE_GUI 2026-08-12 17:43 ($hash)
-- **[Changed]** [Moe autonomous] MatrixCE_GUI 2026-08-12 16:37 ($hash)
 
