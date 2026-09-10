@@ -10,8 +10,8 @@ WORKSPACE_DIR = os.path.abspath("./workspace")
 STATE_FILE = os.path.abspath("./.workspace_state.json")
 # Using the local llama-server on port 8080 as verified previously
 OLLAMA_API_URL = "http://127.0.0.1:8080/v1/chat/completions"
-DANUBE_MODEL = "danube3" 
-TRITON_MODEL = "danube3" 
+DANUBE_MODEL = "danube3"
+TRITON_MODEL = "danube3"
 
 os.makedirs(WORKSPACE_DIR, exist_ok=True)
 
@@ -39,7 +39,7 @@ class MobileAgentBroker:
                     except Exception:
                         pass
                     new_map[rel_path] = {"imports": list(set(imports)), "size": os.path.getsize(full_path)}
-        
+
         self.project_map = new_map
         with open(STATE_FILE, 'w') as f:
             json.dump(self.project_map, f, indent=2)
@@ -61,7 +61,7 @@ class MobileAgentBroker:
             "temperature": temp,
             "stream": False
         }
-        
+
         cmd = f"curl -s -X POST {OLLAMA_API_URL} -H 'Content-Type: application/json' -d '{json.dumps(payload)}'"
         proc = await asyncio.create_subprocess_shell(
             cmd,
@@ -69,7 +69,7 @@ class MobileAgentBroker:
             stderr=subprocess.PIPE
         )
         stdout, _ = await proc.communicate()
-        
+
         try:
             response_json = json.loads(stdout.decode())
             return response_json['choices'][0]['message']['content'].strip()
@@ -106,11 +106,11 @@ class MobileAgentBroker:
             user_input = await asyncio.get_event_loop().run_in_executor(None, sys.stdin.readline)
             if not user_input: break
             user_input = user_input.strip()
-            
+
             self.update_project_map()
             response = await self.call_llm(DANUBE_MODEL, user_input, danube_sys, temp=0.7)
             print(f"\nDanube: {response}\n")
-            
+
             trigger_match = re.search(r'<trigger>(.*?)</trigger>', response, re.DOTALL)
             if trigger_match:
                 await self.code_queue.put(trigger_match.group(1).strip())

@@ -32,7 +32,7 @@ class GHSyncService:
             cur.execute("SELECT id, task FROM successful_scripts WHERE id > ?", (self.last_synced_id,))
             new_events = cur.fetchall()
             conn.close()
-            
+
             if new_events:
                 print(f"[*] Detected {len(new_events)} new logical events. Triggering GH-Sync...")
                 self.sync_to_github(new_events[-1][1]) # Sync using the latest task desc

@@ -59,7 +59,7 @@ def execute_route(prompt):
 
     target, meta = route_request(prompt)
     print(f"[*] Hash-Shannon Evaluated: Entropy={meta['entropy']:.2f} | Routing -> {target}")
-    
+
     if target == "TRITON_KERNEL":
         print("[*] Dispatching to Triton Kernel...")
         distill(prompt)
@@ -86,11 +86,11 @@ def main():
                     break
                 if not raw_prompt.strip():
                     continue
-                
+
                 intents = parse_intents(raw_prompt)
                 for intent in intents:
                     execute_route(intent)
-                    
+
             except (KeyboardInterrupt, EOFError):
                 print("\n[*] Exiting Omni-Router.")
                 break

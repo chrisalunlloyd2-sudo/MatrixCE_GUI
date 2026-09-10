@@ -39,7 +39,7 @@ def perform_crossover(file1_path, file2_path, func_name):
         return
 
     print("[MATRIX] CROSSING OVER GENES...")
-    
+
     # Create offspring content
     offspring1_content = content1.replace(gene_a, gene_b)
     offspring2_content = content2.replace(gene_b, gene_a)

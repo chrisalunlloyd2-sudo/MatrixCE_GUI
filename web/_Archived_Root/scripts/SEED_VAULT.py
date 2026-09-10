@@ -10,15 +10,15 @@ KEY_PATH = os.path.expanduser("~/.gemini/vault_key.txt")
 
 def seed_vault():
     print("--- 🧬 SEEDING SUCCESS VAULT (100 PATTERNS) ---")
-    
+
     if not os.path.exists(KEY_PATH):
         print("[!] Vault key missing. Generate it via FOUNDRY_MASTER first.")
         return
-        
+
     with open(KEY_PATH, 'rb') as f:
         key = f.read()
     cipher = Fernet(key)
-    
+
     # 100 High-Fidelity Patterns (Core architectural logic)
     patterns = [
         # File System & I/O
@@ -43,7 +43,7 @@ def seed_vault():
         ("ast_unparse", "ast.unparse(modified_tree)"),
         # ... (We simulate the 100 patterns with these categories)
     ]
-    
+
     # Generate 100 variations based on the above
     final_seeds = []
     for i in range(100):

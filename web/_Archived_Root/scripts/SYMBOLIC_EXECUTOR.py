@@ -15,14 +15,14 @@ class DeterministicExecutor:
             # We wrap the code in a temp execution script
             with open("temp_exec.py", "w") as f:
                 f.write(f"import sys\n{open(code_path).read()}\n")
-            
-            result = subprocess.run(["python3", "temp_exec.py"], 
-                                   input=input_data, 
+
+            result = subprocess.run(["python3", "temp_exec.py"],
+                                   input=input_data,
                                    capture_output=True, text=True, timeout=30)
-            
+
             if result.returncode != 0:
                 return f"ERROR:{result.stderr}"
-                
+
             return hashlib.sha256(result.stdout.encode()).hexdigest()
         except Exception as e:
             return f"FAULT:{e}"
@@ -30,12 +30,12 @@ class DeterministicExecutor:
     def verify_determinism(self, code_path, input_data="", iterations=5):
         """Step 38: Verify code behavior is consistent across runs."""
         print(f"[*] Verifying Determinism for {os.path.basename(code_path)}...")
-        
+
         hashes = []
         for i in range(iterations):
             h = self.run_test_iteration(code_path, input_data)
             hashes.append(h)
-            
+
         if all(h == hashes[0] for h in hashes):
             print(f"[✅] Behavior Verified (Deterministic over {iterations} runs).")
             return True

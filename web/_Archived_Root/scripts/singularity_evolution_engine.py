@@ -23,27 +23,27 @@ def main():
     print("=========================================================================")
     print(" EXECUTING THE 500-EVOLUTION SINGULARITY PROTOCOL ")
     print("=========================================================================")
-    
+
     # --- EPOCH 1 ---
     print_epoch(1, "1-100", "Core Mastery & Caching")
     evolve_trait("Neural Caching", "src/caching.py", "import sqlite3\n# Neural Caching Logic v500\ndef cache_get(h): pass")
-    
+
     # --- EPOCH 2 ---
     print_epoch(2, "101-200", "Swarm Intelligence")
     evolve_trait("Swarm Dispatcher", "src/swarm.py", "class SwarmAgent:\n    def __init__(self, role): self.role = role")
-    
+
     # --- EPOCH 3 ---
     print_epoch(3, "201-300", "Recursive Self-Correction")
     evolve_trait("Self-Healing", "src/diagnostic.py", "def auto_fix(error): return 'Resolved'")
-    
+
     # --- EPOCH 4 ---
     print_epoch(4, "301-400", "Neural Bridge")
     evolve_trait("Cross-Network Sync", "src/bridge.py", "def desktop_sync(): print('Synchronizing with OneDrive...')")
-    
+
     # --- EPOCH 5 ---
     print_epoch(5, "401-500", "Predictive Engineering")
     evolve_trait("Singularity Core", "src/singularity.py", "# Self-Sustaining Protocol Active")
-    
+
     print("\n[Singularity] 500 Evolutions Simulated and Scaffolded.")
     print("[Singularity] Synchronizing 500x state to GitHub...")
     os.system("python3 /data/data/com.termux/files/home/initialize_enterprise_project.py > /dev/null 2>&1")

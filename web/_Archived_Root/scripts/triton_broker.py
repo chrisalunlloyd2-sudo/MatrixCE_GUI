@@ -10,7 +10,7 @@ import sqlite3
 WORKSPACE_DIR = os.path.abspath("./workspace")
 OLLAMA_API_URL = "http://127.0.0.1:8080/v1/chat/completions"
 # Using the confirmed functional DANUBE/TRITON model
-MODEL = "danube3" 
+MODEL = "danube3"
 TODO_DB = os.path.expanduser("~/.matrix_ide/database/todo.db")
 
 class TritonBroker:
@@ -70,18 +70,18 @@ class TritonBroker:
         """Phase 5, Step 43: Autonomous execution with self-healing loop."""
         print(f"\n[Triton] Planning: {instruction}")
         task_id = self.log_task(f"Planning: {instruction[:50]}...")
-        
+
         # 1. Triton plans the task
         plan = await self.call_llm(f"Plan this task: {instruction}", "Output ONLY a shell command string.", temp=0.0)
         cmd = re.sub(r'```[a-zA-Z]*\n|```', '', plan).strip()
-        
+
         # 2. Triton executes and self-heals
         for attempt in range(3):
             if task_id: self.update_task_status(task_id, f"running (attempt {attempt+1})")
             print(f"[Triton] Execution attempt {attempt+1}: {cmd}")
             proc = await asyncio.create_subprocess_shell(f"cd {WORKSPACE_DIR} && {cmd}", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             stdout, stderr = await proc.communicate()
-            
+
             if proc.returncode == 0:
                 print(f"[Triton] Success: {stdout.decode().strip()}")
                 if task_id: self.update_task_status(task_id, "completed")
@@ -92,7 +92,7 @@ class TritonBroker:
                 if task_id: self.update_task_status(task_id, f"repairing (error: {err_msg[:20]}...)")
                 cmd = await self.call_llm(f"Failed cmd: {cmd}. Error: {err_msg}. Fix it.", "Output ONLY the corrected command.", temp=0.0)
                 cmd = re.sub(r'```[a-zA-Z]*\n|```', '', cmd).strip()
-        
+
         if task_id: self.update_task_status(task_id, "failed")
 
     async def orchestrator_loop(self):
@@ -101,7 +101,7 @@ class TritonBroker:
             # Simplest cycle: scan stdin for task requests
             line = await asyncio.get_event_loop().run_in_executor(None, sys.stdin.readline)
             if not line: break
-            
+
             # Phase 2: Intercept tasks, delegate to Triton
             if "code" in line.lower() or "run" in line.lower() or "task" in line.lower():
                 await self.execute_task(line.strip())

@@ -29,7 +29,7 @@ def sync_minimal_payload(source_dir):
 def execute_in_shadow(command):
     """Runs a command inside the shadow directory."""
     setup_shadow()
-    
+
     # Use current working directory as source for minimal sync
     cwd = os.getcwd()
     sync_minimal_payload(cwd)
@@ -46,7 +46,7 @@ def execute_in_shadow(command):
             text=True
         )
         stdout, stderr = process.communicate(timeout=30) # 30s timeout for safety
-        
+
         return stdout, stderr, process.returncode
     except subprocess.TimeoutExpired:
         process.kill()

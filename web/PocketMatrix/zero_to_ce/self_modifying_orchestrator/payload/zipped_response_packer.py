@@ -21,17 +21,17 @@ def pack_response():
     timestamp = time.strftime("%Y%m%d_%H%M%S")
     zip_name = f"Gen10_Response_{timestamp}.zip"
     zip_path = os.path.join(TRANSFER_DIR, zip_name)
-    
+
     with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
         # Add Config
         config_path = os.path.expanduser("~/.matrix_ide/state/orchestrator_config.json")
         if os.path.exists(config_path):
             zipf.write(config_path, arcname="orchestrator_config.json")
-        
+
         # Add Logs
         for log_file in glob.glob(os.path.expanduser("~/.matrix_ide/state/action_weights/*.jsonl")):
             zipf.write(log_file, arcname=f"logs/{os.path.basename(log_file)}")
-            
+
     print(f"[+] Package manifested: {zip_path}")
     return zip_path
 

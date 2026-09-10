@@ -17,7 +17,7 @@ class KQMLHandoff:
     def delegate_inference(self, prompt, context=""):
         """Step 28: Send KQML 'delegate' message to laptop node."""
         print(f"[*] Handoff: Delegating heavy inference to {self.target_id}...")
-        
+
         # Construct KQML-ish JSON payload
         payload = {
             "performative": "delegate",
@@ -26,12 +26,12 @@ class KQMLHandoff:
             "content": prompt,
             "context": context
         }
-        
+
         try:
             url = f"http://{LAPTOP_IP}:{LAPTOP_BRIDGE_PORT}/"
             # Note: We reuse the agent_bridge.py protocol
             response = requests.post(url, json={"message": prompt}, timeout=60)
-            
+
             if response.status_code == 200:
                 data = response.json()
                 print(f"[+] Handoff Success. Received high-fidelity response.")

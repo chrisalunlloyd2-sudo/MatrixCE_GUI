@@ -71,7 +71,7 @@ class FoundryMaster:
         db_path = os.path.expanduser("~/.matrix_ide/database/ledger.db")
         try:
             conn = sqlite3.connect(db_path)
-            conn.execute("INSERT INTO entropy_events (prompt, entropy, target) VALUES (?, ?, ?)", 
+            conn.execute("INSERT INTO entropy_events (prompt, entropy, target) VALUES (?, ?, ?)",
                          (prompt, entropy, target))
             conn.commit()
             conn.close()
@@ -83,7 +83,7 @@ class FoundryMaster:
             # Common Termux path for Android thermal zones
             with open("/sys/class/thermal/thermal_zone0/temp", "r") as f:
                 return int(f.read().strip()) / 1000
-        except:
+        except Exception:
             return 35.0 # Fallback for simulation
 
     def thermal_guard(self):
@@ -94,7 +94,7 @@ class FoundryMaster:
             time.sleep(60)
             return True
         return False
-        
+
     def calculate_state_hash(self, context_str):
         """Advanced Algebra: Deterministic state mapping via SHA256."""
         raw = f"{self.current_plan}|{context_str[-500:]}"
@@ -109,7 +109,7 @@ class FoundryMaster:
         """Advanced Algebra: Probability-based routing with Entropy-gated self-correction."""
         scores = {"TALK": 0.1, "PLAN": 0.1, "PROGRAM": 0.1}
         tokens = user_input.lower().split()
-        
+
         # Mapping intent density
         scores["TALK"] += sum(1.5 for w in tokens if w in ["how", "who", "what", "explain", "tell", "describe", "why"])
         scores["PROGRAM"] += sum(2.5 for w in tokens if w in ["build", "create", "fix", "code", "script", "install", "run", "bash", "python"])
@@ -117,11 +117,11 @@ class FoundryMaster:
 
         total = sum(scores.values())
         probs = {k: v / total for k, v in scores.items()}
-        
+
         entropy = self.calculate_entropy(probs)
         target = max(probs, key=probs.get)
         confidence = probs[target]
-        
+
         print(f"[Algebraic Routing] Target: {target} | Confidence: {confidence:.2f} | Entropy: {entropy:.2f}")
 
         # Step 11: Log high entropy for pedagogy feedback loop
@@ -138,7 +138,7 @@ class FoundryMaster:
                 probs = {k: v / sum(scores.values()) for k, v in scores.items()}
                 target = max(probs, key=probs.get)
                 print(f"[Self-Correction] New Target: {target} (Confidence: {probs[target]:.2f})")
-        
+
         return target
 
     def module_talking(self, prompt, context):
@@ -164,7 +164,7 @@ class FoundryMaster:
         # Step 4: Duty Cycle Throttling (1:1 Ratio)
         self.thermal_guard()
         start_time = time.time()
-        
+
         # Try local server first (llama-server)
         import requests
         response_text = ""
@@ -174,9 +174,9 @@ class FoundryMaster:
                 json={"prompt": f"<|prompt|>{prompt}<|answer|>", "n_predict": 512, "temperature": 0.1},
                 timeout=60
             )
-            if response.status_code == 200: 
+            if response.status_code == 200:
                 response_text = response.json()['content']
-        except: 
+        except Exception:
             # Fallback to aichat
             cmd = f"echo \"{prompt}\" | aichat"
             process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
@@ -186,7 +186,7 @@ class FoundryMaster:
         duration = time.time() - start_time
         print(f"[Throttling] Inference took {duration:.2f}s. Sleeping for {duration:.2f}s (1:1 Ratio).")
         time.sleep(duration)
-        
+
         return response_text
 
     def execute_commands(self, text):
@@ -206,7 +206,7 @@ class FoundryMaster:
             encrypted_cmd = self.vault.encrypt(command)
             conn = sqlite3.connect(db_path)
             cur = conn.cursor()
-            cur.execute("INSERT INTO successful_scripts (task, command) VALUES (?, ?)", 
+            cur.execute("INSERT INTO successful_scripts (task, command) VALUES (?, ?)",
                         ("foundry_v10.2_encrypted", encrypted_cmd.decode()))
             conn.commit()
             conn.close()
@@ -231,7 +231,7 @@ class FoundryMaster:
         if idle > 75.0 and temp < 40.0:
             print(f"[🧬 Auto-Evolution] System Idle ({idle:.1f}%) and Cool ({temp}C). Triggering Genetic Loop...")
             subprocess.Popen([
-                "python3", os.path.expanduser("~/genetic_flow/runtime_loop.py"), 
+                "python3", os.path.expanduser("~/genetic_flow/runtime_loop.py"),
                 "--max-gen", "2"
             ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             return True
@@ -242,7 +242,7 @@ class FoundryMaster:
         print(f"[*] Local Sync Hook (GitHub Disabled): {message[:30]}...")
         try:
             # Step 17: Update CHANGELOG.md before sync (Locally)
-            if random.random() < 0.2: 
+            if random.random() < 0.2:
                 print("[*] Step 17: Triggering AI Changelog Update (Local)...")
                 subprocess.run(["python3", "UPDATE_CHANGELOG.py"], stdout=subprocess.DEVNULL)
             # Removed git add, commit, push due to stale locks.
@@ -254,12 +254,12 @@ class FoundryMaster:
         print(f"   FOUNDRY MASTER ENGINE v10.2 (MARKOV SPLIT)          ")
         print(f"   Project: {self.project_name}                        ")
         print(f"=======================================================")
-        
+
         while True:
             try:
                 user_input = input(f"({self.project_name}) > ")
                 if user_input.lower() == 'exit': break
-                
+
                 # 1. State Hashing
                 context_data = "|".join(self.rag.search_context(user_input, limit=5))
                 state_hash = self.calculate_state_hash(context_data)
@@ -267,7 +267,7 @@ class FoundryMaster:
 
                 # 2. Markov Logic (Component Routing)
                 component = self.markov_transition(user_input)
-                
+
                 # 3. Component Execution (Decoupled)
                 if component == "TALK":
                     response = self.module_talking(user_input, context_data)
@@ -275,21 +275,21 @@ class FoundryMaster:
                     response = self.module_planning(user_input, context_data)
                 elif component == "PROGRAM":
                     response = self.module_programming(user_input, context_data)
-                
+
                 print(f"\n[AI - {component}]: {response}\n")
-                
+
                 # 4. State Persistence (RAG)
                 msg = KQMLMessage("tell", "user", "foundry", user_input, state=state_hash)
                 self.rag.store_message(msg)
                 msg_ai = KQMLMessage("tell", "foundry", "user", response, component=component)
                 self.rag.store_message(msg_ai)
-                
+
                 # 5. Global Sync
                 self.git_sync(user_input)
-                
+
                 # Step 12: Background Auto-Evolution check
                 self.auto_genetic_trigger()
-                
+
             except KeyboardInterrupt: break
             except Exception as e: print(f"[!] Engine Fault: {e}")
 

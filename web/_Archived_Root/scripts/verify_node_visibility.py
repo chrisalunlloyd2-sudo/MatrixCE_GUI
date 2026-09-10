@@ -8,10 +8,10 @@ def check_pings():
     if not os.path.exists(LOG_FILE):
         print("[!] No heartbeat log found. Nodes are DARK.")
         return False
-        
+
     with open(LOG_FILE, "r") as f:
         pings = f.readlines()
-        
+
     if len(pings) > 0:
         print(f"[+] Nodes are VISIBLE. {len(pings)} heartbeats registered.")
         print(f"[Latest]: {pings[-1].strip()}")

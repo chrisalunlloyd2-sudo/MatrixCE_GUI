@@ -28,9 +28,9 @@ class StateFreezer:
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         archive_name = f"freeze_{milestone_name}_{timestamp}.tar.gz"
         archive_path = os.path.join(FREEZE_DIR, archive_name)
-        
+
         print(f"[*] Freezing substrate state: {milestone_name}...")
-        
+
         try:
             with tarfile.open(archive_path, "w:gz") as tar:
                 for target in self.targets:
@@ -38,10 +38,10 @@ class StateFreezer:
                     if os.path.exists(full_path):
                         # Archive with relative paths
                         tar.add(full_path, arcname=target)
-            
+
             size_mb = os.path.getsize(archive_path) / (1024 * 1024)
             print(f"[✅] Freeze Complete: {archive_name} ({size_mb:.2f} MB)")
-            
+
             # Step 26 Hook: Commit freeze to GitHub if requested
             return archive_path
         except Exception as e:

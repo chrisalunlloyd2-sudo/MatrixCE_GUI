@@ -15,25 +15,25 @@ def run_loop():
         try:
             prompt = input(">>> ")
             if prompt == "exit": break
-            
+
             # Danube Orchestrator Filter
             sanitized = filter_and_route(prompt)
-            
+
             # Route to aichat + hook into aider
             cmd = f"echo '{sanitized}' | aichat"
             process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             stdout, _ = process.communicate()
-            
+
             # Aider integration: Extraction and injection
             blocks = re.findall(r'```python\n(.*?)\n```', stdout, re.DOTALL)
             for block in blocks:
                 with open('active_project.py', 'w') as f: f.write(block)
-            
+
             # Persistent GitHub Sync Routine
             subprocess.run(["git", "add", "."], check=True)
             subprocess.run(["git", "commit", "-m", "autonomous: " + sanitized[:20]], check=True)
             subprocess.run(["git", "push", "origin", "main"], check=True)
-            
+
             print("I have uploaded everything to GitHub.")
         except EOFError:
             break

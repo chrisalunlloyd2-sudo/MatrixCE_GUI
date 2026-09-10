@@ -24,7 +24,7 @@ def start_discovery():
         while True:
             print("[*] Sending Heartbeat...")
             sock.sendto(MAGIC_SIGNAL, ('<broadcast>', DISCOVERY_PORT))
-            
+
             try:
                 data, addr = sock.recvfrom(1024)
                 if data == b"NODE_READY":
@@ -34,7 +34,7 @@ def start_discovery():
                     return True
             except socket.timeout:
                 print("[!] No response. Retrying...")
-            
+
             time.sleep(10)
     except KeyboardInterrupt:
         print("[*] Discovery Terminated.")

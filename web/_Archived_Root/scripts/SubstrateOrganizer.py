@@ -7,7 +7,7 @@ def organize_and_tidy():
         "~/openrouter_manager/project_cats_v3": "~/project_cats_v3",
         "~/openrouter_manager/docs": "~/docs/enterprise",
     }
-    
+
     for src, dst in targets.items():
         src_path = os.path.expanduser(src)
         dst_path = os.path.expanduser(dst)

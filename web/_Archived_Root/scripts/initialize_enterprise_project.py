@@ -17,7 +17,7 @@ def get_token():
                 return f.read().strip()
         except Exception as e:
             print(f"Error loading GH PAT: {e}")
-            
+
     # Fallback to Google OAuth (might fail for GH)
     try:
         with open(CREDS_PATH, 'r') as f:
@@ -36,7 +36,7 @@ def generate_ascii_tree(path="."):
         for f in sorted(files):
             if f.startswith('.'): continue
             output.append(f"├── {f}")
-    except:
+    except Exception:
         pass
     return "\n".join(output)
 
@@ -50,7 +50,7 @@ def generate_high_fidelity_readme(project_name, tree):
             template = f.read()
 
     # Contextual inference for replacements
-    # This can be expanded with real AI calls if needed, 
+    # This can be expanded with real AI calls if needed,
     # but here we use reasonable defaults or environment cues.
     replacements = {
         "{{PROJECT_NAME}}": project_name,
@@ -64,14 +64,14 @@ def generate_high_fidelity_readme(project_name, tree):
 
     for key, val in replacements.items():
         template = template.replace(key, val)
-    
+
     return template
 
 def initialize():
     # Use current directory name as project name
     project_root = os.getcwd()
     project_name = os.path.basename(project_root)
-    
+
     if project_name == "home" or project_name == "":
          project_name = "MATRIX_GEN8_HOME"
 
@@ -85,7 +85,7 @@ def initialize():
     # 1. Create Github Repo (via API)
     headers = {"Authorization": f"token {token}", "Accept": "application/vnd.github.v3+json"}
     payload = {"name": project_name, "private": False}
-    
+
     resp = requests.post("https://api.github.com/user/repos", headers=headers, json=payload)
     if resp.status_code == 201:
         print(f"[+] Created GitHub Repo: {project_name}")
@@ -97,7 +97,7 @@ def initialize():
     # 2. Git Setup
     if not os.path.exists(".git"):
         subprocess.run(["git", "init"], check=False)
-    
+
     # Secure URL with token
     remote_url = f"https://{token}@github.com/chrisalunlloyd2-sudo/{project_name}.git"
     subprocess.run(["git", "remote", "remove", "origin"], check=False)
@@ -106,7 +106,7 @@ def initialize():
 
     # 3. Create Enterprise Docs (High-Fidelity Standard)
     tree = generate_ascii_tree()
-    
+
     # Always update README to standard if it doesn't meet v10.1 criteria
     # "NEVER DELETE EVERYTHING" mandate: we preserve the old README as README_LEGACY.md if it exists
     if os.path.exists("README.md"):
@@ -120,7 +120,7 @@ def initialize():
     else:
         with open("README.md", "w") as f:
             f.write(generate_high_fidelity_readme(project_name, tree))
-    
+
     # Ensure mandatory documents exist
     for doc in ["Blueprint.md", "CHANGELOG.md", "PROJECT_LOG.md", "ROADMAP.md"]:
         if not os.path.exists(doc):
@@ -130,7 +130,7 @@ def initialize():
     # 4. Sync State
     subprocess.run(["git", "add", "."], check=False)
     subprocess.run(["git", "commit", "-m", f"[MANIFEST] v10.1 High-Fidelity Enterprise Sync: {project_name}"], check=False)
-    
+
     print("--- 📡 Checking Network Connectivity ---")
     try:
         requests.get("https://github.com", timeout=3)

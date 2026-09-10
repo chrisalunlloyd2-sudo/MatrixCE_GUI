@@ -12,7 +12,7 @@ def execute_handoff(target_ip, target_path):
         "~/.matrix_ide/logs/agy_master.log",
         "~/GLOBAL_PEDAGOGY.md"
     ]
-    
+
     for f in files_to_sync:
         src = os.path.expanduser(f)
         try:

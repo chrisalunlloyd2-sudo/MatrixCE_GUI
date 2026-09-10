@@ -19,7 +19,7 @@ def generate_predictive_hash(prompt):
 def route_request(prompt):
     prompt_hash = generate_predictive_hash(prompt)
     entropy = calculate_shannon_entropy(prompt)
-    
+
     # 1. Predictive Hash Check (0-shot execution)
     hash_file = os.path.join(VAULT_PATH, f"hash_{prompt_hash}.json")
     if os.path.exists(hash_file):
@@ -40,7 +40,7 @@ def route_request(prompt):
 
 if __name__ == "__main__":
     test_prompts = [
-        "cat file.txt > output.txt", 
+        "cat file.txt > output.txt",
         "Explain the quantum mechanics of the new hypersync architecture and how it modifies the RAG pipeline."
     ]
     for p in test_prompts:

@@ -7,7 +7,7 @@ def run_pro_github_genetic_test():
     print(" INITIATING 500X PRO GITHUB GENETIC TRAINING LOOP ")
     print(" Validating AI ability to build an enterprise repo and push autonomously ")
     print("=========================================================================")
-    
+
     # Target workspace
     target_dir = "/data/data/com.termux/files/home/openrouter_manager"
     os.chdir(target_dir)
@@ -21,20 +21,20 @@ def run_pro_github_genetic_test():
 
     print("\n[Danube] Firing Prompt to Headless Cognitive Engine...")
     cmd = ["/data/data/com.termux/files/usr/bin/aichat", "--role", "openrouter-manager", prompt]
-    
+
     try:
         # Devnull stdin prevents pipe crashes
         res = subprocess.run(cmd, capture_output=True, text=True, check=True, stdin=subprocess.DEVNULL)
-        
+
         with open(".test_payload.txt", "w") as f:
             f.write(res.stdout)
-            
+
         print("[+] Response Received. Triggering Danube Executor to Process Files and Commands...")
-        
+
         # Execute the extraction
         executor = subprocess.run(["python3", "/data/data/com.termux/files/home/openrouter_manager/danube_executor.py", ".test_payload.txt"], capture_output=True, text=True)
         print(executor.stdout)
-        
+
         # Validation: Check if the README.md is substantial enough to be "PRO"
         try:
             readme_size = os.path.getsize("README.md")
@@ -44,7 +44,7 @@ def run_pro_github_genetic_test():
                 print(f"[!] FAIL: README.md generated is too small ({readme_size} bytes). Not 500x Pro Standard.")
         except FileNotFoundError:
             print("[!] FAIL: README.md was not extracted or written.")
-            
+
     except subprocess.CalledProcessError as e:
         print(f"  -> [!] API Error: {e.stderr}")
 

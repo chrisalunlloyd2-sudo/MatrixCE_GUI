@@ -15,9 +15,9 @@ def run_horizon_step(step_id, domain, task):
     print(f"🚀 [HORIZON STEP {step_id}/50] Domain: {domain}")
     print(f"Task: {task}")
     print(f"=========================================================\n")
-    
+
     prompt = f"Executing Singularity Horizon Step {step_id} ({domain}): {task}. Apply Scary Smart real agentic traits. Refactor current workspace for this trait. Provide 500x Pro Documentation."
-    
+
     cmd = ["python3", DIRECTOR_PATH, prompt]
     try:
         # Pass the command to the Director (OpenRouter -> Extraction -> Sync)

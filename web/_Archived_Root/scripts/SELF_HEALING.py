@@ -18,7 +18,7 @@ class SelfHealing:
         if not os.path.exists(db_path):
             print(f"[!] {db_name} MISSING. Initiating recovery...")
             return False
-            
+
         try:
             conn = sqlite3.connect(db_path)
             res = conn.execute("PRAGMA integrity_check;").fetchone()[0]
@@ -38,15 +38,15 @@ class SelfHealing:
         if not os.path.exists(FREEZE_DIR):
             print("[!!] FATAL: No backup freezes found. Cannot self-heal.")
             return False
-            
+
         freezes = sorted([f for f in os.listdir(FREEZE_DIR) if f.endswith(".tar.gz")], reverse=True)
         if not freezes:
             print("[!!] FATAL: No freezes available.")
             return False
-            
+
         latest_freeze = os.path.join(FREEZE_DIR, freezes[0])
         print(f"[*] Recovering substrate from latest freeze: {freezes[0]}...")
-        
+
         try:
             with tarfile.open(latest_freeze, "r:gz") as tar:
                 # Extract to home directory
@@ -60,11 +60,11 @@ class SelfHealing:
     def attestation_loop(self):
         print("--- 🩹 SUBSTRATE ATTESTATION ACTIVE ---")
         issues_detected = False
-        
+
         for db in self.critical_files:
             if not self.check_db_integrity(db):
                 issues_detected = True
-                
+
         if issues_detected:
             self.recover_from_freeze()
         else:

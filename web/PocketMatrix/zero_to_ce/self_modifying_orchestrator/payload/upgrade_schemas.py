@@ -2,16 +2,17 @@ import sqlite3
 import os
 
 # 📦 PAYLOAD: DATABASE SCHEMA OPTIMIZATION (v2.0)
-# Objective: Upgrade shannon_memory.db to support Domain Tagging and 
+# Objective: Upgrade shannon_memory.db to support Domain Tagging and
 # higher-dimensional Vector Algebra for predictive text/code.
 
 DB_PATH = os.path.expanduser("~/.matrix_ide/state/shannon_memory.db")
 
 def upgrade_schema():
+    """Upgrade schema (function)."""
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute("PRAGMA journal_mode=WAL;")
-    
+
     # 1. Add Domain Tagging to Hash Cache for Contextual Pre-Caching
     try:
         c.execute("ALTER TABLE hash_cache ADD COLUMN domain TEXT DEFAULT 'general';")
@@ -22,7 +23,7 @@ def upgrade_schema():
     # 2. Create Pre-Cache Table for High-Velocity Output Generation
     c.execute('''CREATE TABLE IF NOT EXISTS predictive_precache
                  (domain TEXT, trigger_hash TEXT PRIMARY KEY, cached_payload TEXT, hit_count INTEGER DEFAULT 0)''')
-    
+
     # Seed Web Dev Pre-Cache
     web_boilerplate = """<!DOCTYPE html>
 <html lang="en">
@@ -42,7 +43,7 @@ def upgrade_schema():
     </div>
 </body>
 </html>"""
-    
+
     trigger_hash = "web_html_001"
     c.execute("INSERT OR IGNORE INTO predictive_precache (domain, trigger_hash, cached_payload) VALUES (?, ?, ?)",
               ("web_dev", trigger_hash, web_boilerplate))

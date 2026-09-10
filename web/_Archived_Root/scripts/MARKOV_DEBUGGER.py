@@ -23,7 +23,7 @@ class MarkovDebugger:
             cur.execute("SELECT prompt, entropy, target, timestamp FROM entropy_events ORDER BY id DESC LIMIT 10")
             events = cur.fetchall()
             conn.close()
-            
+
             if not events:
                 print("[!] No entropy events recorded yet.")
                 return
@@ -33,7 +33,7 @@ class MarkovDebugger:
             for prompt, entropy, target, ts in events:
                 entropy_bar = self.draw_bar(min(entropy, 2.0), 2.0, 10)
                 print(f"{ts:<20} | {target:<8} | {entropy:.2f} {entropy_bar} | {prompt[:40]}")
-                
+
         except Exception as e:
             print(f"[!] Debugger failed: {e}")
 

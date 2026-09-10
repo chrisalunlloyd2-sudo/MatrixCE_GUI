@@ -30,7 +30,7 @@ def generate_node(node_info, depth):
     research_text = random.choice(RESEARCH_DATA)
     # Adding cache-busting to the unsplash URL to ensure random pictures
     image_url = f"https://source.unsplash.com/600x400/?cat,feline&sig={depth}"
-    
+
     html_content = f"""<!DOCTYPE html>
 <html lang="en">
 <head>

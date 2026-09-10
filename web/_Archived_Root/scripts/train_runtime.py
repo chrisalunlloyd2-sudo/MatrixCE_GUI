@@ -11,7 +11,7 @@ def start_training_loop():
             # and apply the learned pedagogy to incoming requests.
             print("[*] Training step: Evaluating repository and system state...")
             subprocess.run(['python3', 'genetic_optimizer.py', '--monitor'], timeout=30)
-            
+
             # The duty cycle throttle mandated by the Sprite's Wisdom
             time.sleep(30)
         except Exception as e:

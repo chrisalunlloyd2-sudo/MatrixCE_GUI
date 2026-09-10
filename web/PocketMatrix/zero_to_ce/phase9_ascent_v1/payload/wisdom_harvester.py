@@ -14,7 +14,7 @@ def harvest():
         return
 
     files = [f for f in os.listdir(VAULT_DIR) if f.endswith(".json")]
-    
+
     with open(BRAIN_LOG, "a") as log:
         log.write(f"\n## [DIGEST_SESSION_{datetime.now().strftime('%Y%m%d_%H%M%S')}]\n")
         for filename in files:

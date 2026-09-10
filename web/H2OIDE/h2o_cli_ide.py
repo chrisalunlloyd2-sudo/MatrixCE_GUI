@@ -27,7 +27,7 @@ class H2OIDE(cmd.Cmd):
     def default(self, line):
         if not line or line.strip().lower() == 'exit':
             return
-            
+
         # 1. Danube handles the conversation directly
         danube_response = self._call_model(line, "You are Danube, a brilliant, warm, and precise architectural expert. Provide direct, clean, and structured answers. No filler.")
         print(f"\n[Danube]: {danube_response}\n")

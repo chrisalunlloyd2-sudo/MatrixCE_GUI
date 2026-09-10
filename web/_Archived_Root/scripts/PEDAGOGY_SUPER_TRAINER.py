@@ -29,7 +29,7 @@ Your plan must include:
 3. Next Steps (Where does this lead?)
 DO NOT repeat previous experiments. Focus on: SQL optimization, AST mutation, or Markov stability.
 Output ONLY the plan in valid Markdown format.<|endoftext|>\n<|answer|>"""
-        
+
         process = subprocess.Popen(["aichat"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
         stdout, _ = process.communicate(input=prompt)
         return stdout
@@ -39,12 +39,12 @@ Output ONLY the plan in valid Markdown format.<|endoftext|>\n<|answer|>"""
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"pedagogy_gen_{self.cycle_count}_{timestamp}.md"
         filepath = os.path.join(SANDBOX_DIR, filename)
-        
+
         # Save the Agent's Plan
         with open(filepath, 'w') as f:
             f.write(f"# 🧬 AUTONOMOUS PEDAGOGY RECORD: Cycle {self.cycle_count}\n")
             f.write(plan)
-            
+
         # Step 19: Scientific Execution of the 'Hypothesis'
         # (We simulate the 'build' action for the pedagogy record)
         hypothesis_snippet = plan.split('\n')[0][:100]
@@ -62,22 +62,22 @@ Output ONLY the plan in valid Markdown format.<|endoftext|>\n<|answer|>"""
         print(f"=======================================================")
         print(f"   STARTING 8-HOUR PEDAGOGY ROUTINE (50 CYCLES)       ")
         print(f"=======================================================")
-        
+
         for i in range(1, self.max_cycles + 1):
             self.cycle_count = i
             print(f"\n[Cycle {i}/50] Agent formulating plan...")
-            
+
             plan = self.generate_autonomous_plan()
             self.execute_scientific_cycle(plan)
-            
+
             # Record in global log
             with open(LOG_FILE, "a") as f:
                 f.write(f"- Cycle {i}: {datetime.datetime.now()} | Hypothesis: {plan.splitlines()[0] if plan else 'None'}\n")
-            
+
             # Sync every 5 cycles to avoid GitHub rate limits but ensure persistence
             if i % 5 == 0:
                 self.git_sync()
-            
+
             print(f"[Cycle {i}] Satisfied. Sleeping for {self.cooldown}s...")
             time.sleep(self.cooldown)
 
